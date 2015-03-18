@@ -35,7 +35,8 @@ def db_auth(username, password):
             if e.args[0].code == 1017:
                 logger.error('Please check your credentials.(%s)' % username)
             else:
-                logger.error('Database connection error: %s'.format(e.args[0].code))
+                logger.error('Database connection error: %s'%(e.args[0].code))
+                logger.error('Database connection error: %s'%(str(e.args)))
 
             return False
     else:
@@ -70,11 +71,13 @@ def login(request):
                 user = User(username=username, password=password, first_name=db_userinfo['FIRSTNAME'], last_name=db_userinfo['LASTNAME'],email=db_userinfo['EMAIL'])
                 user.is_staff = True
                 user.is_superuser = False
+                user.userprofile.phone=db_userinfo['PHONE']
+                user.userprofile.job=db_userinfo['JOB']
                 user.save()
 
 
-                profile=User.objects.get(username=username)
-                profile.phone=db_userinfo['PHONE']
+
+                # profile.save()
         else:
             args['login_error'] = 'Access denied'
 

@@ -1,11 +1,13 @@
 -- Create the user 
-create user DJANGO
+create user DJANGO identified by django
   default tablespace USERS
   temporary tablespace TEMP
   profile DEFAULT
   quota 1000m on users;
+  
 -- Grant/Revoke object privileges 
 grant select on USR_DJANGO_AUTH to DJANGO;
+grant select on USR_DJANGO_INSTANCE to DJANGO;
 -- Grant/Revoke system privileges 
 grant create indextype to DJANGO;
 grant create sequence to DJANGO;
