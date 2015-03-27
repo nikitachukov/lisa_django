@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'account',
+    'reports',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -98,6 +99,13 @@ LOGGING = {
             'formatter': 'standard',
         },
 
+          'reports': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'reports.log'),
+            'formatter': 'standard',
+        },
+
 
                 'other': {
             'level': 'DEBUG',
@@ -126,8 +134,8 @@ LOGGING = {
         'account.views': {
             'handlers': ['console', 'account'],
             'level': 'DEBUG',
-        },        'other.views': {
-            'handlers': ['console', 'other'],
+        },        'reports.views': {
+            'handlers': ['console', 'reports'],
             'level': 'DEBUG',
         },
     }
@@ -138,9 +146,9 @@ LOGGING = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 

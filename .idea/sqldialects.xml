@@ -2,7 +2,6 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/sql/djangouser.sql" dialect="Oracle" />
-    <file url="file://$PROJECT_DIR$/sql/flush.sql" dialect="Oracle" />
     <file url="file://$PROJECT_DIR$/sql/usr_django_auth.sql" dialect="Oracle" />
   </component>
 </project>

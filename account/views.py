@@ -30,13 +30,11 @@ def db_auth(username, password):
                 return None
 
         except cx_Oracle.DatabaseError as e:
-            logger.error(str(e.args[0].code))
             # logger.error(str(e.args[0]))
             if e.args[0].code == 1017:
-                logger.error('Please check your credentials.(%s)' % username)
+                logger.debug('Please check your credentials %s (ORA-%s)' % (username,str(e.args[0].code)))
             else:
-                logger.error('Database connection error: %s'%(e.args[0].code))
-                logger.error('Database connection error: %s'%(str(e.args)))
+                logger.debug('Database connection error: %s' % (str(e.args)))
 
             return False
     else:
@@ -45,58 +43,32 @@ def db_auth(username, password):
 
 def login(request):
     logger = logging.getLogger(__name__)
-
-    # username = 'CHUKOVNA'.upper()
-    # password = '2wsx@WSX'
-
-    #
-    # logger.debug( db_auth(username, password))
-    #
-
     args = {}
     args.update(csrf(request))
     if request.POST:
-
         username = request.POST.get('username', '').upper()
         password = request.POST.get('password', '')
-
         db_userinfo = db_auth(username, password)
-
         if db_userinfo:
-            logger.debug(db_userinfo)
-            args['login_error'] = 'Welcome %s %s %s !!!' % (db_userinfo['LASTNAME'], db_userinfo['FIRSTNAME'], db_userinfo['MIDDLENAME'])
+            logger.debug('Пользователь авторизован в Lisa')
             try:
-                user = User.objects.get(username=username)
+                Profile = UserProfile.objects.get(user_id=User.objects.get(username=db_userinfo['USERNAME']).pk)
+                logger.debug('Пользователь %s найден'%Profile.user.username)
+                args['login_error'] = 'Welcome %s %s !!!' % (Profile.user.first_name,Profile.user.last_name)
+
+
             except User.DoesNotExist:
-                user = User(username=username, password=password, first_name=db_userinfo['FIRSTNAME'], last_name=db_userinfo['LASTNAME'],email=db_userinfo['EMAIL'])
-                user.is_staff = True
-                user.is_superuser = False
-                user.userprofile.phone=db_userinfo['PHONE']
-                user.userprofile.job=db_userinfo['JOB']
-                user.save()
-
-
-
-                # profile.save()
+                Profile=UserProfile.objects.create(user=User.objects.create(username=username,
+                                                                    password=password,
+                                                                    first_name=db_userinfo['FIRSTNAME'],
+                                                                    last_name=db_userinfo['LASTNAME'],
+                                                                    email=db_userinfo['EMAIL']),
+                                           phone=db_userinfo['PHONE'],
+                                           job=db_userinfo['JOB'])
+                args['login_error'] = 'Welcome %s %s !!!' % (Profile.user.first_name,Profile.user.last_name)
+                logger.debug('Пользователь %s создан'%Profile.user.username)
         else:
+            logger.debug('Пользователь %s НЕ авторизован в Lisa'%username)
             args['login_error'] = 'Access denied'
 
     return render_to_response('login.html', args)
-
-
-
-
-
-    # user = auth.authenticate(username=username, password=password)
-    #
-    #     if user is not None:
-    #         auth.login(request, user)
-    #         return redirect('/')
-    #     else:
-    #         args['login_error'] = 'Пользователь не найден'
-    #         return render_to_response('account/login.html', args)
-    # else:
-    #     return render_to_response('account/login.html', args)
-
-
-# Create your views here.
