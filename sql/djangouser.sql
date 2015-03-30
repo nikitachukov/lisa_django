@@ -16,3 +16,6 @@ grant create table to DJANGO;
 grant create trigger to DJANGO;
 grant create type to DJANGO;
 grant create view to DJANGO;
+--Grant/Revoke Roles
+GRANT lisaro to DJANGO;
+GRANT lisarw to DJANGO;

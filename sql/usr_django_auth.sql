@@ -9,4 +9,6 @@ u.logindisabled,
 u.canworkinfrontoffice,
 phone,email,job
  from dba_users db ,users u, usergrouplink ugl
-where db.username=u.username and ugl.userid=u.id and ugl.usergroupid=1000 and u.logindisabled=0
+where db.username=u.username and ugl.userid=u.id and ugl.usergroupid=1000 and u.logindisabled=0;
+
+grant select on lisa.usr_django_auth to lisaro;

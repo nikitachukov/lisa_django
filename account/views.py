@@ -18,8 +18,11 @@ def db_auth(username, password):
         try:
 
             dsn_tns = cx_Oracle.makedsn(settings.DATABASES['default']['HOST'], settings.DATABASES['default']['PORT'], settings.DATABASES['default']['NAME'])
+            logger.debug(username)
+            logger.debug(password)
             con = cx_Oracle.connect(username, password[::-1], dsn_tns)
             cursor = con.cursor()
+            cursor.execute('set role lisaro identified by lisaro')
             cursor.execute('select username,lastname,firstname,middlename,phone,email,job from lisa.usr_django_auth where username=user')
             row = cursor.fetchone()
 
@@ -34,7 +37,7 @@ def db_auth(username, password):
             if e.args[0].code == 1017:
                 logger.debug('Please check your credentials %s (ORA-%s)' % (username,str(e.args[0].code)))
             else:
-                logger.debug('Database connection error: %s' % (str(e.args)))
+                logger.debug('Database connection error: ORA-%s' % (str(e.args[0].code)))
 
             return False
     else:
