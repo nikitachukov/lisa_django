@@ -46,6 +46,7 @@ def login(request):
     args = {}
     args.update(csrf(request))
     if request.POST:
+    # if True:
         username = request.POST.get('username', '').upper()
         password = request.POST.get('password', '')
         db_userinfo = db_auth(username, password)
@@ -71,4 +72,4 @@ def login(request):
             logger.debug('Пользователь %s НЕ авторизован в Lisa'%username)
             args['login_error'] = 'Access denied'
 
-    return render_to_response('login.html', args)
+    return render_to_response("login.html", args)
