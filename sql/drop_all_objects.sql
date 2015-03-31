@@ -8,7 +8,7 @@ begin
   dbms_output.put_line(user);
   dbms_output.put_line('==============================================');
 
-  if instance = 'LISA2' and user = 'DJANGO' then
+  if instance = 'LISA' and user = 'DJANGO' then
   
     FOR rec IN (SELECT object_name, object_type
                   FROM user_objects

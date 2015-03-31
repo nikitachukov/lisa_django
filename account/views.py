@@ -49,7 +49,6 @@ def login(request):
     args = {}
     args.update(csrf(request))
     if request.POST:
-    # if True:
         username = request.POST.get('username', '').upper()
         password = request.POST.get('password', '')
         db_userinfo = db_auth(username, password)
