@@ -10,8 +10,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-
 from lisa_django.local_settings import *
+from django.core.urlresolvers import reverse,reverse_lazy
 
 
 
@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+
+
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -52,6 +54,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+
+
+
 
 ROOT_URLCONF = 'lisa_django.urls'
 
@@ -87,9 +93,13 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-
 STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+
+LOGIN_URL = reverse_lazy('account:login')
+LOGOUT_URL = reverse_lazy('account:logout')
+
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
