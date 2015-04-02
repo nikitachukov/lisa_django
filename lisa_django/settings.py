@@ -45,6 +45,12 @@ INSTALLED_APPS = (
     'reports',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'account.auth_backend.SettingsBackend',
+)
+
+
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -99,7 +105,9 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
+
+
 LOGIN_URL = reverse_lazy('account:login')
 LOGOUT_URL = reverse_lazy('account:logout')
 
-AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+# AUTH_PROFILE_MODULE = 'accounts.UserProfile'
