@@ -1,31 +1,24 @@
 from django.conf import settings
 from django.contrib.auth.models import User, check_password
+from account.lisa_auth import db_auth
+
 
 class SettingsBackend(object):
     """
-    Authenticate against the settings ADMIN_LOGIN and ADMIN_PASSWORD.
-
-    Use the login name, and a hash of the password. For example:
-
-    ADMIN_LOGIN = 'admin'
-    ADMIN_PASSWORD = 'sha1$4e987$afbcf42e21bd417fb71db8c66b321e9fc33051de'
     """
 
     def authenticate(self, username=None, password=None):
-                    # check_password(password, settings.ADMIN_PASSWORD)
-        if (settings.ADMIN_LOGIN == username) and (settings.ADMIN_PASSWORD == password):
+        lisa_user = db_auth(username=username, password=password)
+
+        if lisa_user:
             try:
-                user = User.objects.get(username=username)
+                user = User.objects.get(username=username, is_staff=False, is_superuser=False)
             except User.DoesNotExist:
-                # Create a new user. Note that we can set password
-                # to anything, because it won't be checked; the password
-                # from settings.py will.
                 user = User(username=username, password=password)
-                # user.is_staff = True
-                # user.is_superuser = True
-                # user.save()
+                user.is_staff = False
+                user.is_superuser = False
+                user.save()
             return user
-        return None
 
     def get_user(self, user_id):
         try:
