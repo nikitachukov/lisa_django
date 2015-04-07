@@ -3,13 +3,12 @@ from django.contrib import auth
 from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 
-# Create your views here.
 
 def login(request):
     args = {}
     args.update(csrf(request))
     if request.POST:
-        username = request.POST.get('username', '')
+        username = request.POST.get('username', '').upper()
         password = request.POST.get('password', '')
         user = auth.authenticate(username=username, password=password)
 
