@@ -116,7 +116,7 @@
 
 
                     {% if user.is_authenticated %}
-                        <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
+                        <p>Welcome, {{ user.first_name }} {{ user.last_name }}. Thanks for logging in.</p>
                     {% else %}
                         <p>Welcome, new user. Please log in.</p>
                     {% endif %}

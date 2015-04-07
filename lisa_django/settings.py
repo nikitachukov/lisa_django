@@ -11,9 +11,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from lisa_django.local_settings import *
-from django.core.urlresolvers import reverse,reverse_lazy
-
-
+from django.core.urlresolvers import reverse, reverse_lazy
 
 
 # Quick-start development settings - unsuitable for production
@@ -47,9 +45,8 @@ INSTALLED_APPS = (
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'account.auth_backend.SettingsBackend',
+    'account.views.LisaBackend',
 )
-
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -61,21 +58,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-
-
-
-
 ROOT_URLCONF = 'lisa_django.urls'
 
 WSGI_APPLICATION = 'lisa_django.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
-
-
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -105,9 +90,5 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
-
-
 LOGIN_URL = reverse_lazy('account:login')
 LOGOUT_URL = reverse_lazy('account:logout')
-
-# AUTH_PROFILE_MODULE = 'accounts.UserProfile'
