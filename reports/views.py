@@ -9,4 +9,4 @@ from django.conf import settings
 def index(request):
     logger = logging.getLogger(__name__)
     logger.debug(settings.LOGIN_URL)
-    return render_to_response('index.html', {'user': request.user})
+    return render(request,'index.html')
