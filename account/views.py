@@ -44,7 +44,7 @@ class LisaBackend(object):
             if lisa_user:
                 try:
                     logger.info('Пользователь %s авторизован в LISA (%s)' % (username, md5(password.encode('utf-8')).hexdigest().upper()))
-                    user = User.objects.get(username=username, is_staff=False, is_superuser=False)
+                    user = User.objects.get(username=username,is_active=True)
                     logger.info('Пользователь найден (ID=%d)' % user.pk)
                     user.userprofile.phone = lisa_user['PHONE']
                     user.userprofile.job = lisa_user['JOB']
